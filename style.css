@@ -19,14 +19,15 @@ h2{
 }
 
 input{
-    width: 100%;
+    width: 60%;
     padding: 10px;
-    margin: 8px 0;
-    border-radius: 4pc;
+    margin-left: 8px 0;
+    border-radius: 1pc;
+    color: white;
 }
 
 button{
-    width: 100%;
+    width: 20%;
     padding: 10px;
     background: #007bff;
     color: white;
@@ -55,21 +56,22 @@ a{
 
 .navbar button{
     width: auto;
-    background: red;
+    background: rgb(232, 232, 5);
 }
 
 .dashboard{
-    padding: 20px;
+    padding: 100px;
 }
 
 table{
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background: violet;
 }
 
 table, th, td{
-    border: 1px;
+    border: 40px;
 }
 
 th, td{
@@ -77,8 +79,23 @@ th, td{
     text-align: center;
 }
 h1{
-    margin-left: 10pc;
+    margin-left: pc;
+    color: whitesmoke;
 }
 a{
-color: white;
+color: rgb(245, 6, 157);
+margin-left: 2pc; 
+margin: 2pc;
+}
+nav{
+   
+    margin-right: 30pc;
+display: flex;
+justify-content: space-between;
+
+}
+a:hover{
+    color: rgb(9, 195, 228);
+    background-color: #007bff;
+    border-radius: 1pc;
 }

@@ -5,26 +5,44 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+<header>
 <div class="navbar">
-    <div>Stock Management System</div>
+   <h1 style="color: aqua;">🏦SIMS|| <span style="font-size: small; color: springgreen;">stok invetory management system</span></h1>
     <div>
         <span id="username"></span>
         <button onclick="logout()">Logout</button>
     </div>
 </div>
-
+<nav>
+    <div class="about" style="background-color: blue;">
+<a href="">about</a>
+    </div>
+    <div class="home" style="background-color: blueviolet;">
+<a href="">home</a>
+    </div>
+   <div class="setting" style="background-color: burlywood;">
+ <a href="">setting</a>
+   </div>
+   <div class="product" style="background-color: cornflowerblue;">
+<a href="">product</a>
+   </div>
+    <div class="report" style="background-color: lawngreen;">
+ <a href="">report</a>
+    </div>
+   
+</nav>
+</header>
 <div class="dashboard">
 
-    <h2>Add Product</h2>
+    <h1 style="font-size: small;">ADD YOUR <span style="font-size: xx-large;background: linear-gradient(blue);" >PRODUCT</span></h1>
 
-    <input type="text" id="pid" placeholder="Product ID">
-    <input type="text" id="pname" placeholder="Product Name">
-    <input type="text" id="pcategory" placeholder="Category">
-    <input type="number" id="pquantity" placeholder="Quantity">
-    <input type="number" id="pprice" placeholder="Price">
+    <input type="text" id="pid" placeholder="Product ID" style="background-color: black;">
+    <input type="text" id="pname" placeholder="Product Name" style="background-color: blue;">
+    <input type="text" id="pcategory" placeholder="Category" style="background-color: crimson;">
+    <input type="number" id="pquantity" placeholder="Quantity" style="background-color: deepskyblue;">
+    <input type="number" id="pprice" placeholder="Price" style="background-color: maroon;">
 
-    <button onclick="addProduct()">Add Product</button>
+    <button onclick="addProduct()" style="border-radius: 2pc;">Add Product</button>
 
     <h2>Product List</h2>
 
