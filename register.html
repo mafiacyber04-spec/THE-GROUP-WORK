@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Register</h2>
+
+    <input type="email" id="email" placeholder="Email">
+    <input type="text" id="fullname" placeholder="Full Name">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="register()">Register</button>
+
+    <p>Already have account? <a href="index.html">Login</a></p>
+</div>
+
+<script>
+function register(){
+    let email = document.getElementById("email").value;
+    let fullname = document.getElementById("fullname").value;
+    let password = document.getElementById("password").value;
+
+    if(email === "" || fullname === "" || password === ""){
+        alert("Please fill all fields");
+        return;
+    }
+
+    let user = {
+        email: email,
+        fullname: fullname,
+        password: password
+    };
+
+    localStorage.setItem("user", JSON.stringify(user));
+
+    alert("Registration successful!");
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

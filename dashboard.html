@@ -1,43 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-     <style>
-nav{
-    background-color: black;
-    margin-right: 30pc;
-    height: 25pc;
-    padding-bottom: 70px;
-}
-main{
-    background-color: papayawhip;
-    margin-left: 10pc;
-    padding-top:45px;
-    /* margin-bottom: 4pc; */
-    /* height: 3pc; */
-}
-header{
-    background-color: paleturquoise;
-}
-
-
-</style>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard - Stock Management</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-      <header>
-    <h1>SIMS||<SPAn style="font-size: small;font-family: fantasy;">stok invetory
-         management system</SPAn>
-         </header>
-         <nav>
-<h1>nav</h1>
-         </nav>
-         <main>
-<h1>main</h1>
-         </main>
-         <footer>
-            <h1>footer</h1>
-         </footer>
+
+<div class="navbar">
+    <div>Stock Management System</div>
+    <div>
+        <span id="username"></span>
+        <button onclick="logout()">Logout</button>
+    </div>
+</div>
+
+<div class="dashboard">
+
+    <h2>Add Product</h2>
+
+    <input type="text" id="pid" placeholder="Product ID">
+    <input type="text" id="pname" placeholder="Product Name">
+    <input type="text" id="pcategory" placeholder="Category">
+    <input type="number" id="pquantity" placeholder="Quantity">
+    <input type="number" id="pprice" placeholder="Price">
+
+    <button onclick="addProduct()">Add Product</button>
+
+    <h2>Product List</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody id="productTable"></tbody>
+    </table>
+
+</div>
+
+<script>
+
+if(localStorage.getItem("loggedIn") !== "true"){
+    window.location.href = "index.html";
+}
+
+let user = JSON.parse(localStorage.getItem("user"));
+document.getElementById("username").innerText = user.fullname;
+
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+function addProduct(){
+    let product = {
+        id: document.getElementById("pid").value,
+        name: document.getElementById("pname").value,
+        category: document.getElementById("pcategory").value,
+        quantity: document.getElementById("pquantity").value,
+        price: document.getElementById("pprice").value
+    };
+
+    products.push(product);
+    localStorage.setItem("products", JSON.stringify(products));
+    displayProducts();
+}
+
+function displayProducts(){
+    let table = document.getElementById("productTable");
+    table.innerHTML = "";
+
+    products.forEach(p => {
+        table.innerHTML += `
+            <tr>
+                <td>${p.id}</td>
+                <td>${p.name}</td>
+                <td>${p.category}</td>
+                <td>${p.quantity}</td>
+                <td>${p.price}</td>
+            </tr>
+        `;
+    });
+}
+
+function logout(){
+    localStorage.removeItem("loggedIn");
+    window.location.href = "index.html";
+}
+
+displayProducts();
+
+</script>
+
 </body>
 </html>
