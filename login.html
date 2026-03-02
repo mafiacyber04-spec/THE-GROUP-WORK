@@ -1,48 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-header{
-    margin: 90px;
-}
-fieldset{
-    box-shadow: darkblue;
-}
-u{
-    margin: 30px;
-}
-label{
-margin-bottom: 20px;
-margin-top: 10px;
-}
-input{
-
-}
-    </style>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - SIMS</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(-45deg,#1e3c72,#2a5298,#00c6ff,#0072ff);background-size:400% 400%;animation:gradientMove 10s ease infinite;}
+@keyframes gradientMove{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+.login-card{width:380px;padding:40px;border-radius:20px;background:rgba(255,255,255,0.1);backdrop-filter:blur(15px);box-shadow:0 15px 35px rgba(0,0,0,0.3);color:white;}
+.login-card h2{text-align:center;margin-bottom:30px;}
+.input-box{position:relative;margin-bottom:25px;}
+.input-box input{width:100%;padding:12px;border:none;border-bottom:2px solid #fff;background:transparent;color:white;outline:none;}
+.input-box label{position:absolute;top:12px;left:0;transition:0.3s;color:#ddd;}
+.input-box input:focus + label,
+.input-box input:valid + label{top:-10px;font-size:12px;color:#00c6ff;}
+.show-pass{position:absolute;right:0;top:12px;cursor:pointer;font-size:14px;}
+button{width:100%;padding:12px;border:none;border-radius:30px;background:linear-gradient(to right,#00c6ff,#0072ff);color:white;font-weight:bold;cursor:pointer;transition:0.3s;}
+button:hover{transform:scale(1.08);box-shadow:0 5px 20px rgba(0,0,0,0.4);}
+.footer{text-align:center;margin-top:20px;font-size:14px;}
+.footer a{color:#fff;text-decoration:underline;}
+</style>
 </head>
 <body>
 
-    <header>
-    <h1>SIMS||<SPAn style="font-size: small;font-family: fantasy;">stok invetory
-         management system</SPAn>
-   </h1>
-    </header>
-    <fieldset>
-<u style="font-size: xx-large;">SIGN IN</u>
-<br><br><br>
-<label for="">user email</label><br><br>
-<input type="text" name="" id=""> <br><br><br>
-    
-<label for="">user password</label><br>
-<input type="text" name="" id=""><br><br>
+<div class="login-card">
+<h1>🛒SIMS|| <span style="font-size: small;color: aqua;">stock invetory management system</span></h1>
 
-<button type="submit">login</button>
-<p>if you don't have an account?<a href="legister.html">REGISTER</a></p>
-        </fieldset>
+<div class="input-box">
+    <input type="email" id="email" required>
+    <label>✉️Email</label>
+</div>
 
+<div class="input-box">
+    <input type="password" id="password" required>
+    <label>🔐Password</label>
+    <span class="show-pass" onclick="togglePassword()">Show</span>
+</div>
+
+<button onclick="login()">Login</button>
+
+<div class="footer">
+Don't have account? <a href="register.html">Register</a>
+</div>
+</div>
+
+<script>
+function togglePassword(){
+    let pass = document.getElementById("password");
+    pass.type = pass.type === "password" ? "text" : "password";
+}
+
+function login(){
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    let user = users.find(u=>u.email === email && u.password === password);
+
+    if(user){
+        localStorage.setItem("loggedIn","true");
+        localStorage.setItem("userEmail", email);
+        window.location.href = "dashboard.html";
+    }else{
+        alert("Invalid credentials");
+    }
+}
+</script>
 
 </body>
 </html>

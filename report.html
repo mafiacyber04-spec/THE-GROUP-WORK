@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIMS Product Report</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{background:#f4f7fc;padding:20px;}
+.navbar{background:#2a5298;color:white;padding:15px 30px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.logout{background:red;border:none;padding:8px 15px;color:white;border-radius:5px;cursor:pointer;}
+.report-container{background:white;padding:20px;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,0.1);}
+table{width:100%;border-collapse:collapse;margin-top:15px;}
+th,td{border:1px solid #ddd;padding:10px;text-align:center;}
+th{background:#2a5298;color:white;}
+.summary{margin-top:20px;font-size:16px;font-weight:bold;}
+button{padding:10px 20px;margin:5px;background:#28a745;color:white;border:none;border-radius:5px;cursor:pointer;}
+button:hover{opacity:0.9;}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+<h1>🛒SIMS|| <span style="font-size: small;color: rgb(10, 10, 10);">stock invetory management system</span></h1>
+<button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<div class="report-container">
+    <div>
+        <button onclick="downloadCSV()">Download CSV</button>
+        <button onclick="printReport()">Print Report</button>
+    </div>
+
+    <table id="reportTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="summary" id="summaryStats"></div>
+</div>
+
+<script>
+// Protect page
+if(localStorage.getItem("loggedIn") !== "true"){
+    window.location.href = "login.html";
+}
+
+// Load products from localStorage
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+function displayReport(){
+    let tableBody = document.querySelector("#reportTable tbody");
+    tableBody.innerHTML = "";
+    let inStock = 0, outStock = 0;
+
+    products.forEach(p=>{
+        let status = p.quantity > 0 ? "In Stock" : "Out of Stock";
+        if(p.quantity > 0) inStock++; else outStock++;
+
+        tableBody.innerHTML += `
+        <tr>
+            <td>${p.id}</td>
+            <td>${p.name}</td>
+            <td>${p.quantity}</td>
+            <td>${p.category}</td>
+            <td>$${p.price}</td>
+            <td>${status}</td>
+        </tr>`;
+    });
+
+    let total = products.length;
+    let percent = total > 0 ? Math.round((inStock/total)*100) : 0;
+
+    document.getElementById("summaryStats").innerText =
+        `Total Products: ${total} | In Stock: ${inStock} | Out of Stock: ${outStock} | Stock %: ${percent}%`;
+}
+
+// Download CSV
+function downloadCSV(){
+    if(products.length === 0){ alert("No products to download."); return; }
+    let csvContent = "data:text/csv;charset=utf-8,ID,Name,Quantity,Category,Price,Status\n";
+
+    products.forEach(p=>{
+        let status = p.quantity > 0 ? "In Stock" : "Out of Stock";
+        csvContent += `${p.id},${p.name},${p.quantity},${p.category},${p.price},${status}\n`;
+    });
+
+    let encodedUri = encodeURI(csvContent);
+    let link = document.createElement("a");
+    let timestamp = new Date().toISOString().slice(0,19).replace(/:/g,"-");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `SIMS_Report_${timestamp}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Print report
+function printReport(){
+    let printContents = document.querySelector(".report-container").innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+    location.reload();
+}
+
+// Logout
+function logout(){
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("userEmail");
+    window.location.href="login.html";
+}
+
+displayReport();
+</script>
+
+</body>
+</html>
